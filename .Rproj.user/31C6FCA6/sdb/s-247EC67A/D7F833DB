@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  # Application title\n  titlePanel(\"test\"),\n\n  # Sidebar with a slider input for number of bins\n  sidebarLayout(\n    sidebarPanel(\n      fluidRow(\n        column(6,\n               textInput(\"textd\", label = h5(\"Введіть d\"), value = \"\"),\n               textInput(\"textdel\", label = h5(\"Введіть δ\"), value = \"\"),\n               textInput(\"textE\", label = h5(\"Введіть E\"), value = \"\")\n               ),\n        \n        column(6,\n               textInput(\"textc\", label = h5(\"Введіть c\"), value = \"\"),\n               textInput(\"textT\", label = h5(\"Введіть T\"), value = \"\"),\n               textInput(\"textro\", label = h5(\"Введіть ρ\"), value = \"\")\n               ),\n        \n        column(6,\n               textInput(\"texteta\", label = h5(\"Введіть η\"), value = \"\")\n        ),\n        \n        column(6,\n               textInput(\"textksi\", label = h5(\"Введіть ξ\"), value = \"\")\n        ),\n        \n        column(12,\n               verbatimTextOutput(\"rezultC\"),\n               verbatimTextOutput(\"rezultf\"),\n               verbatimTextOutput(\"rezultBet\"),\n               verbatimTextOutput(\"rezultCw\")\n               ),\n        \n        column(12,\n               sliderInput(\"rezultf_sl\", \"Критичне значення частоти\",\n                           min = 20, max = 200, value = 20)\n               )\n      )\n    ),\n\n    # Show a plot of the generated distribution\n    mainPanel(\n      fluidRow(column(12,\n                      plotlyOutput(\"trendPlot\")\n      ))\n    )\n  )\n))\n",
+    "created" : 1457789438611.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "783193154",
+    "id" : "D7F833DB",
+    "lastKnownWriteTime" : 1457799819,
+    "path" : "~/Shiny/kurs/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
