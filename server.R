@@ -17,41 +17,46 @@ shinyServer(function(input, output, session) {
     del <- as.numeric(del)
     E <- input$textE
     E <- as.numeric(E)
-    c <- input$textc
-    c <- as.numeric(c)
+    P <- input$textP
+    P <- as.numeric(P)
     Temp <- input$textT
     Temp <- as.numeric(Temp)
-    ro <- input$textro
-    ro <- as.numeric(ro)
+    if (input$checkbox1 == TRUE) {
+      ro <- (825)
+      ksi <- (9.7*10^-6)
+    }
+    if (input$checkbox2 == TRUE) {
+      ro <- (860)
+      ksi <- (4.5*10^-6)
+    }
+    if (input$checkbox3 == TRUE) {
+      ro <- (400)
+      ksi <- (14.3*10^-6)
+    }
+    c <- 100
     B <- (c ^ 2) * ro
     Ct <- c / sqrt( 1 + (d * B) / (del * E) )
-    rezultC <- Ct
-  })
-  
-  output$rezultf <- renderText({
-    d <- input$textd
-    d <- as.numeric(d)
-    c <- input$textc
-    c <- as.numeric(c)
-    r <- (d / 2)
-    f <- (0.61 * c / r)
-    updateSliderInput(session, "rezultf_sl", value = f)
-    
-    output$rezultBet <- renderText({
-      eta <- input$texteta
-      eta <- as.numeric(eta)
-      ksi <- input$textksi
-      ksi <- as.numeric(ksi)
-      b <- (4 / 3 * eta + ksi)
-      w <- 2 * pi * f
-      Bet <- ( (b * w^2) / (2 * c^3 * ro) ) + ( (1 / a) * ( (eta * w) / (2 * c^2 * ro)  )^(1/2) )
-      output$rezultCw <- renderText({
-        Cw <- c ( 1 - (eta / 2 * ro * w * a^2)^(1/2) )
+    output$rezultf <- renderText({
+      r <- (d / 2)
+      f <- (0.61 * c / r)
+      updateSliderInput(session, "rezultf_sl", value = f)
+      
+      output$rezultBet <- renderText({
+        eta <- ksi * ro
+        b <- (4 / 3 * eta + ksi)
+        w <- 2 * pi * f
+        a <- r
+        Bet <- ( (b * w^2) / (2 * c^3 * ro) ) + ( (1 / a) * ( (eta * w) / (2 * c^2 * ro)  )^(1/2) )
+        output$rezultCw <- renderText({
+          Cw <- c ( 1 - (eta / 2 * ro * w * a^2)^(1/2) )
+          rezultCw <- Cw
+        })
+        rezultBet <- Bet
       })
-      rezultBet <- Bet
+      
+      rezultf <- f
     })
-
-    rezultf <- f
+    rezultC <- Ct
   })
   
   
