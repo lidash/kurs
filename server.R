@@ -48,11 +48,12 @@ shinyServer(function(input, output, session) {
       c <- 1216
     }
     if(input$radio == "palevo"){
-      updateSelectInput(session, textT, choices = ("293" = 293))
+      updateSelectInput(session, "textT", choices = ("293" = 293))
       c <- 1392
     }
     if(input$radio == "gas"){
-      updateSelectInput(session, textT)
+      updateSelectInput(session, "textT", choices = ("293" = 293))
+      c <- 460
     }
     B <- (c ^ 2) * ro
     Ct <- c / sqrt( 1 + (d * B) / (del * E) )
