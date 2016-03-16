@@ -36,10 +36,22 @@ shinyUI(fluidPage(
                textInput("textP", label = h5("Введіть P, Па"), value = "")  
         )
       ),
-        fluidRow(
+      fluidRow(
+        column(6,
+               textInput("textc", label = h5("Введіть C, м/с"), value = "")  
+        ),
+        column(6,
+               textInput("textro", label = h5("Введіть ρ, кг/м3"), value = "")  
+        ),
+        column(6,
+               textInput("textksi", label = h5("Введіть ξ"), value = "")
+        ),
+        column(6,
+               textInput("texteta", label = h5("Введіть η"), value = "")  
+        )
+      ),
+      fluidRow(
         column(4,
-               #textInput("textc", label = h5("Введіть c"), value = ""),
-               #textInput("textro", label = h5("Введіть ρ"), value = ""),
                textInput("textd", label = h5("Введіть d, м"), value = 1.020)
         ),
         
@@ -50,14 +62,6 @@ shinyUI(fluidPage(
         column(4,
                textInput("textE", label = h5("Введіть E"), value = 2.08*10^11)
         ),
-        
-        #column(6,
-               #textInput("texteta", label = h5("Введіть η"), value = "")
-        #),
-        
-        #column(6,
-               #textInput("textksi", label = h5("Введіть ξ"), value = "")
-        #),
     
         column(12,
                h5("Результат обрахунку Cm(T)"),
@@ -82,6 +86,9 @@ shinyUI(fluidPage(
       fluidRow(column(12,
                       plotlyOutput("trendPlot")
       )),
+      br(),
+      br(),
+      br(),
       fluidRow(column(12,
                       plotOutput("TempPlot")
       ))

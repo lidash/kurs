@@ -58,13 +58,17 @@ shinyServer(function(input, output, session) {
     B <- (c ^ 2) * ro
     Ct <- c / sqrt( 1 + (d * B) / (del * E) )
     output$rezultf <- renderText({
+      updateTextInput(session, "textc", value = c)
+      updateTextInput(session, "textro", value = ro)
+      updateTextInput(session, "textksi", value = ksi)
       r <- (d / 2)
       f <- (0.61 * c / r)
-      fmax <- f
+      fmax <- f%/%1
       updateSliderInput(session, "rezultf_sl", max = fmax)
       
       output$rezultBet <- renderText({
         eta <- ksi * ro
+        updateTextInput(session, "texteta", value = eta)
         b <- (4 / 3 * eta + ksi)
         w <- 2 * pi * f
         a <- r
