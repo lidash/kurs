@@ -19,27 +19,44 @@ shinyServer(function(input, output, session) {
     E <- as.numeric(E)
     P <- input$textP
     P <- as.numeric(P)
-    Temp <- input$textT
-    Temp <- as.numeric(Temp)
-    if (input$checkbox1 == TRUE) {
+    
+    if (input$radio == "nafta") {
       ro <- (825)
       ksi <- (9.7*10^-6)
     }
-    if (input$checkbox2 == TRUE) {
+    if (input$radio == "palevo") {
       ro <- (860)
       ksi <- (4.5*10^-6)
     }
-    if (input$checkbox3 == TRUE) {
+    if (input$radio == "gas") {
       ro <- (400)
       ksi <- (14.3*10^-6)
     }
-    c <- 100
+    if(input$radio == "nafta" && input$textT == 273){
+      c <- 1374
+    }
+    if(input$radio == "nafta" && input$textT == 283){
+      c <- 1332
+    }
+    if(input$radio == "nafta" && input$textT == 293){
+      c <- 1292
+    }
+    if(input$radio == "nafta" && input$textT == 303){
+      c <- 1253
+    }
+    if(input$radio == "nafta" && input$textT == 313){
+      c <- 1216
+    }
+    if(input$radio == "palevo" && input$textT == 293){
+      c <- 1392
+    }
     B <- (c ^ 2) * ro
     Ct <- c / sqrt( 1 + (d * B) / (del * E) )
     output$rezultf <- renderText({
       r <- (d / 2)
       f <- (0.61 * c / r)
-      updateSliderInput(session, "rezultf_sl", value = f)
+      fmax <- f
+      updateSliderInput(session, "rezultf_sl", max = fmax)
       
       output$rezultBet <- renderText({
         eta <- ksi * ro
@@ -56,24 +73,27 @@ shinyServer(function(input, output, session) {
       
       rezultf <- f
     })
+    output$TempPlot <- renderPlot({
+      x <- data.frame( nafta = c("nafta", "nafta", "nafta", "nafta", "nafta"), Temperatura = c(273, 283, 293, 303, 313), C = c(1374, 1332, 1292, 1253, 1216) )
+      x$Ct <- x$C/sqrt( 1 + (d * B) / (del * E) )
+
+      ggplot(x, aes(Temperatura, y = value, color = variable))+ 
+        geom_line(aes(y = C, col = "C")) + 
+        geom_line(aes(y = Ct, col = "Ct"))+
+        geom_point(aes(y = C, col = "C"))+
+        geom_point(aes(y = Ct, col = "Ct"))
+      
+    })
     rezultC <- Ct
   })
   
-  
-  
   output$trendPlot <- renderPlotly({
-    # initiate a 100 x 3 matrix filled with zeros
-    m <- matrix(numeric(300), ncol = 3)
-    # simulate a 3D random-walk
-    for (i in 2:100) m[i, ] <- m[i-1, ] + rnorm(3)
-    # collect everything in a data-frame
     df <- setNames(
       data.frame(m, seq(1, 100)),
       c("x", "y", "z", "time")
     )
-    
-    library(plotly)
     plot_ly(df, x = x, y = y, z = z, color = time, type = "scatter3d")
   })
+  
 
 })

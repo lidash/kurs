@@ -2,8 +2,8 @@ name: kurs
 account: epic-code
 server: shinyapps.io
 appId: 88582
-bundleId: 394531
+bundleId: 396039
 url: https://epic-code.shinyapps.io/kurs/
-when: 1457899297.80021
+when: 1458070175.18509
 asMultiple: FALSE
 asStatic: FALSE
