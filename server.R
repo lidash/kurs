@@ -47,8 +47,12 @@ shinyServer(function(input, output, session) {
     if(input$radio == "nafta" && input$textT == 313){
       c <- 1216
     }
-    if(input$radio == "palevo" && input$textT == 293){
+    if(input$radio == "palevo"){
+      updateSelectInput(session, textT, choices = ("293" = 293))
       c <- 1392
+    }
+    if(input$radio == "gas"){
+      updateSelectInput(session, textT)
     }
     B <- (c ^ 2) * ro
     Ct <- c / sqrt( 1 + (d * B) / (del * E) )
@@ -88,10 +92,16 @@ shinyServer(function(input, output, session) {
   })
   
   output$trendPlot <- renderPlotly({
+    # initiate a 100 x 3 matrix filled with zeros
+    m <- matrix(numeric(300), ncol = 3)
+    # simulate a 3D random-walk
+    for (i in 2:100) m[i, ] <- m[i-1, ] + rnorm(3)
+    # collect everything in a data-frame
     df <- setNames(
       data.frame(m, seq(1, 100)),
       c("x", "y", "z", "time")
     )
+    
     plot_ly(df, x = x, y = y, z = z, color = time, type = "scatter3d")
   })
   
