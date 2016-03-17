@@ -22,7 +22,7 @@ shinyUI(fluidPage(
         
         column(12,
                radioButtons("radio", label = h4("Вид досліджуваного середовища"),
-                            choices = list("Сира нафта" = "nafta", "Дизельне паливо" = "palevo", "Природній газ" = "gas"), 
+                            choices = list("Сира нафта" = "nafta", "Дизельне палево" = "palevo", "Природній газ" = "gas"), 
                             selected = "nafta")
         ),        
         
@@ -36,31 +36,35 @@ shinyUI(fluidPage(
                textInput("textP", label = h5("Введіть P, Па"), value = "")  
         )
       ),
-        fluidRow(
+      fluidRow(
+        column(6,
+               textInput("textc", label = h5("Введіть C, м/с"), value = "")  
+        ),
+        column(6,
+               textInput("textro", label = h5("Введіть ρ, кг/м3"), value = "")  
+        ),
+        column(6,
+               textInput("textksi", label = h5("Введіть ξ"), value = "")
+        ),
+        column(6,
+               textInput("texteta", label = h5("Введіть η"), value = "")  
+        )
+      ),
+      fluidRow(
         column(4,
-               #textInput("textc", label = h5("Введіть c"), value = ""),
-               #textInput("textro", label = h5("Введіть ρ"), value = ""),
                textInput("textd", label = h5("Введіть d, м"), value = 1.020)
         ),
         
         column(4,
+               #textInput("textdel", label = h5("Введіть δ, м"), value = 0.02)
                selectInput("textdel", label = h5("Введіть δ, м"), 
                            choices = list("0.002" = 0.002, "0.00325" = 0.00325), 
                            selected = 0.002)
-             
         ),
         
         column(4,
                textInput("textE", label = h5("Введіть E"), value = 2.08*10^11)
         ),
-        
-        #column(6,
-               #textInput("texteta", label = h5("Введіть η"), value = "")
-        #),
-        
-        #column(6,
-               #textInput("textksi", label = h5("Введіть ξ"), value = "")
-        #),
     
         column(12,
                h5("Результат обрахунку Cm(T)"),
@@ -75,7 +79,7 @@ shinyUI(fluidPage(
         
         column(12,
                sliderInput("rezultf_sl", "Критичне значення частоти",
-                           min = 20, max = 200, value = 20)
+                           min = 20, max = 200, value = 100)
         )
       )
     ),
@@ -83,14 +87,18 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       fluidRow(column(12,
-                      plotlyOutput("trendPlot")
-      )),
-      fluidRow(column(12,
-                      plotOutput("TempPlot")
-      )),
-      fluidRow(column(12,
-                      plotOutput("TempPlot1")
-      ))
-    )
-  )
+                      tabsetPanel(type = "tabs", 
+                                  tabPanel("Plot", plotlyOutput("trendPlot")), 
+                                  tabPanel("Temp", plotOutput("TempPlot")), 
+                                  tabPanel("Temp1",  plotOutput("TempPlot1"))   
+                      
+                      
+             )         ),
+             column(12,
+                    tableOutput('table1')),
+             column(12,
+                    tableOutput('table2'))
+    
+  ))
 ))
+)
