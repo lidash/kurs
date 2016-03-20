@@ -97,7 +97,9 @@ shinyUI(fluidPage(
              column(12,
                     tableOutput('table1')),
              column(12,
-                    tableOutput('table2'))
+                    tableOutput('table2')),
+             column(12,
+                    tableOutput('table3'))
     
   ))
 ))

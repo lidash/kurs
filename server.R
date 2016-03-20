@@ -123,10 +123,39 @@ shinyServer(function(input, output, session) {
       
     })
     
+    selectedData3<-reactive({
+            # colnames(table)<-c("d","del","E","P","ro","ksi","c","T")
+            data<-as.data.frame(selectedData2())
+            eta <- data$ksi * data$ro
+            updateTextInput(session, "texteta", value = eta)
+            b <- (4 / 3 * eta + data$ksi)
+            #change of diaments
+            dd<-seq(0.25,data$d, 0.05)
+            w<-NULL
+            a<-NULL
+            Bet<-NULL
+            r <- (data$d / 2)
+            f <- (0.61 * data$c / r)
+            freq<-seq(1,floor(f),20)
+            Bet<-matrix(, nrow = length(freq), ncol = length(dd))
+            
+            for(i in (1:length(freq))){
+                    w[i] <- 2 * pi *i  
+                    for(j in (1:length(dd))){
+                            a[j] <- (dd[j] / 2)
+                            Bet[i,j] <- ( (b * w[i]^2) / (2 * data$c^3 * data$ro) ) + ( (1 / a[j]) * ( (eta * w[i]) / (2 * data$c^2 * data$ro)  )^(1/2) )*8.68*1000
+                    }
+                    
+            }
+            Bet 
+            
+    })
 
   
   output$trendPlot <- renderPlotly({
-    # initiate a 100 x 3 matrix filled with zeros
+     #input  selectedData3(), you will receive matrix Bet
+          
+          # initiate a 100 x 3 matrix filled with zeros
     m <- matrix(numeric(300), ncol = 3)
     # simulate a 3D random-walk
     for (i in 2:100) m[i, ] <- m[i-1, ] + rnorm(3)
@@ -150,4 +179,8 @@ shinyServer(function(input, output, session) {
           selectedData2()
   })
 
+  br()
+  output$table3<-renderTable({
+          selectedData3()
+  })
 })
